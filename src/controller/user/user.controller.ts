@@ -18,6 +18,12 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Public()
+  @Get('/home')
+  Test() {
+    return 'Api Playground workign.';
+  }
+
   @Get()
   findAll() {
     return this.userService.findAll();
