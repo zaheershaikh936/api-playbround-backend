@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 import { User } from '../../../entities';
 
 export class CreateAccessDto {
@@ -16,5 +16,15 @@ export class CreateAccessDto {
 
   writeP: boolean;
 
+  deleteP: boolean;
+}
+
+export class UpdateAccessDto {
+  @IsBoolean()
+  @IsNotEmpty()
+  writeP: boolean;
+
+  @IsBoolean()
+  @IsNotEmpty()
   deleteP: boolean;
 }
