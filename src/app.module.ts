@@ -7,6 +7,7 @@ import {
   AuthModule,
   ProjectModule,
   AccessModule,
+  ApiItemModule,
 } from './controller';
 import 'dotenv/config';
 import { LoggerMiddleware } from './middleware/http.logger';
@@ -18,6 +19,7 @@ import { LoggerMiddleware } from './middleware/http.logger';
     AuthModule,
     ProjectModule,
     AccessModule,
+    ApiItemModule,
   ],
   controllers: [],
   providers: [],
