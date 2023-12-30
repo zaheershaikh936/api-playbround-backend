@@ -13,8 +13,20 @@ export class CreateApiItemDto {
   projectId: string;
 
   @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  type: string;
+
+  @IsNotEmpty()
+  @IsString()
+  parent_id: string;
+
+  @IsNotEmpty()
   @IsArray()
-  apiItem: apiItemT;
+  subfolders: string;
 
   createdBy: string;
   createAt: Date;

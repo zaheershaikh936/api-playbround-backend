@@ -16,9 +16,9 @@ export class LoggerMiddleware implements NestMiddleware {
           `${method} ${originalUrl} ${statusCode} - ${userAgent} ${ip}`,
         );
       } else if (statusCode === 304) {
-        this.logger.warn(
-          `${method} ${originalUrl} ${statusCode} - ${userAgent} ${ip}`,
-        );
+        // this.logger.warn(
+        //   `${method} ${originalUrl} ${statusCode} - ${userAgent} ${ip}`,
+        // );
       } else {
         this.logger.error(
           `${method} ${originalUrl} ${statusCode} - ${userAgent} ${ip}`,

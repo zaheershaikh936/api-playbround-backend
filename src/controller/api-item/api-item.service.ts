@@ -13,7 +13,7 @@ export class ApiItemService {
   }
 
   async findOne(id: string) {
-    return await this.apiItemModel.findOne({ projectId: id }).lean();
+    return await this.apiItemModel.find({ parent_id: id }).lean();
   }
 
   async update(id: string, updateApiItemDto: UpdateApiItemDto) {
