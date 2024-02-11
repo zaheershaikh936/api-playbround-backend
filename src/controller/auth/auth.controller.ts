@@ -20,6 +20,13 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
+  @Get('/test')
+  async testing() {
+    return 'All good ready to use!';
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
   @Get('/google')
   @UseGuards(AuthGuard('google'))
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
