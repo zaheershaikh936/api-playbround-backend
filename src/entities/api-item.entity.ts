@@ -1,7 +1,6 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Project, User } from './index';
-import { apiItemT } from '../controller/api-item/dto/api-item.dto';
 
 export type ApiItemDocument = HydratedDocument<ApiItem>;
 
@@ -22,30 +21,22 @@ export class ApiItem {
   createdBy: User;
 
   @Prop({
-    type: String,
+    type: Array,
     required: true,
   })
-  name: string;
+  apiItem: [
+    {
+      name: '';
+      type: '';
+      subfolders: [];
+      apiId: '';
+    },
+  ];
 
-  @Prop({
-    type: String,
-    required: true,
-    enum: ['folder', 'api'],
-  })
-  type: string;
-
-  @Prop({
-    type: [],
-    required: true,
-  })
-  subfolders: apiItemT;
-
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'apiitems',
-    required: true,
-  })
-  parent_id: ApiItem;
+  @Prop({ type: Array, required: false })
+  variables: [
+    { index: number; variable: string; url: string; description: string },
+  ];
 
   @Prop({ type: Date, required: true, default: new Date() })
   createAt: Date;

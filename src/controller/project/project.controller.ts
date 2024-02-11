@@ -26,6 +26,11 @@ export class ProjectController {
     return await this.projectService.findAll(id);
   }
 
+  @Get('/one/:id')
+  async findOneById(@Param('id') id: string) {
+    return await this.projectService.findOneById(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(id, updateProjectDto);

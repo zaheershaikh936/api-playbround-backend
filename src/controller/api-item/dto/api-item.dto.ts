@@ -1,4 +1,5 @@
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { Optional } from '@nestjs/common';
+import { IsArray, IsNotEmpty, IsString, IsOptional } from 'class-validator';
 export type apiItemT = [
   {
     name: string;
@@ -12,19 +13,21 @@ export class CreateApiItemDto {
   @IsString()
   projectId: string;
 
+  createdBy: string;
+
   @IsNotEmpty()
   @IsArray()
-  apiItem: apiItemT;
-
-  createdBy: string;
-  createAt: Date;
-  updateAt: Date;
+  apiItem: string;
 }
 
 export class UpdateApiItemDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
-  apiItem: apiItemT;
+  apiItem: [];
+
+  @IsOptional()
+  @IsArray()
+  variables: [];
 
   updateAt: Date;
 }

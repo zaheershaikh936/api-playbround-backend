@@ -17,6 +17,8 @@ export class CreateAccessDto {
   writeP: boolean;
 
   deleteP: boolean;
+
+  IsOwner: boolean;
 }
 
 export class UpdateAccessDto {

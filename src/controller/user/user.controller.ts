@@ -3,14 +3,13 @@ import { genSalt, hash } from 'bcrypt';
 
 // !other import
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { CreateUserDto, UpdateUserDto, ForgetPassword } from './dto/user.dto';
 import { Public } from 'src/middleware/publicAccess';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Public()
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const salt = await genSalt(10);
@@ -19,9 +18,23 @@ export class UserController {
   }
 
   @Public()
+  @Get('/forget/password/:email')
+  async forgetPassword(@Param('email') email: string) {
+    return this.userService.forgetPassword(email);
+  }
+
+  @Public()
+  @Post('/forget/password/')
+  async verifyToken(@Body() forgetPassword: ForgetPassword) {
+    const salt = await genSalt(10);
+    forgetPassword.password = await hash(forgetPassword.password, salt);
+    return this.userService.verifyToken(forgetPassword);
+  }
+
+  @Public()
   @Get('/home')
   Test() {
-    return 'Api Playground workign.';
+    return 'Api Playground working.';
   }
 
   @Get()
