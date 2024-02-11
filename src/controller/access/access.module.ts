@@ -12,5 +12,6 @@ import { UserModule } from '../index';
   ],
   controllers: [AccessController],
   providers: [AccessService],
+  exports: [AccessService],
 })
 export class AccessModule {}

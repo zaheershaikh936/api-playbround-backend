@@ -11,7 +11,7 @@ export class User {
   @Prop({ type: Boolean, required: true, default: false })
   isVerify: boolean;
 
-  @Prop({ type: String, required: true, unique: false })
+  @Prop({ type: String, required: true, unique: true })
   email: string;
 
   @Prop({ type: String, required: true })
@@ -19,6 +19,20 @@ export class User {
 
   @Prop({ type: String })
   image: string;
+
+  @Prop({
+    type: String,
+    required: true,
+    enum: ['web app', 'google', 'github'],
+    default: 'web app',
+  })
+  source: string;
+
+  @Prop({ type: String, required: false })
+  fToken: string;
+
+  @Prop({ type: Date, required: false })
+  fTokenExpiry: Date;
 
   @Prop({ type: Date, required: true, default: new Date() })
   createAt: Date;

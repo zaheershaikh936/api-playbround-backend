@@ -18,6 +18,9 @@ export class Access {
   })
   userId: User;
 
+  @Prop({ type: Boolean, required: false, default: false })
+  IsOwner: boolean;
+
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'projects',
@@ -25,14 +28,17 @@ export class Access {
   })
   projectId: Project;
 
-  @Prop({ type: Boolean, required: true, default: false })
+  @Prop({ type: Boolean, required: false, default: false })
   writeP: boolean;
 
-  @Prop({ type: Boolean, required: true, default: false })
+  @Prop({ type: Boolean, required: false, default: false })
   deleteP: boolean;
 
   @Prop({ type: Date, required: true, default: new Date() })
   createAt: Date;
+
+  @Prop({ type: Date, required: false, default: new Date() })
+  joined: Date;
 
   @Prop({ type: Date, required: true, default: new Date() })
   updateAt: Date;

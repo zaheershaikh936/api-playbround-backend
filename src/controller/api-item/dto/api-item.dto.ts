@@ -1,4 +1,5 @@
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { Optional } from '@nestjs/common';
+import { IsArray, IsNotEmpty, IsString, IsOptional } from 'class-validator';
 export type apiItemT = [
   {
     name: string;
@@ -12,31 +13,21 @@ export class CreateApiItemDto {
   @IsString()
   projectId: string;
 
-  @IsNotEmpty()
-  @IsString()
-  name: string;
-
-  @IsNotEmpty()
-  @IsString()
-  type: string;
-
-  @IsNotEmpty()
-  @IsString()
-  parent_id: string;
+  createdBy: string;
 
   @IsNotEmpty()
   @IsArray()
-  subfolders: string;
-
-  createdBy: string;
-  createAt: Date;
-  updateAt: Date;
+  apiItem: string;
 }
 
 export class UpdateApiItemDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
-  apiItem: apiItemT;
+  apiItem: [];
+
+  @IsOptional()
+  @IsArray()
+  variables: [];
 
   updateAt: Date;
 }

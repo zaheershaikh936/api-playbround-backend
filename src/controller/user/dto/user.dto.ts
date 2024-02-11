@@ -28,3 +28,17 @@ export class UpdateUserDto {
 
   updateAt: Date;
 }
+
+export class ForgetPassword {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  token: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}

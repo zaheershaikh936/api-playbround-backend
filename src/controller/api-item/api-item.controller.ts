@@ -11,12 +11,13 @@ import {
 import { ApiItemService } from './api-item.service';
 import { CreateApiItemDto, UpdateApiItemDto } from './dto/api-item.dto';
 
-@Controller('api-item')
+@Controller('apiItem')
 export class ApiItemController {
-  constructor(private readonly apiItemService: ApiItemService) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly apiItemService: ApiItemService) { }
 
   @Post()
-  create(@Body() createApiItemDto: CreateApiItemDto, @Req() req: any) {
+  async create(@Body() createApiItemDto: CreateApiItemDto, @Req() req: any) {
     createApiItemDto.createdBy = req.user.sub;
     return this.apiItemService.create(createApiItemDto);
   }
