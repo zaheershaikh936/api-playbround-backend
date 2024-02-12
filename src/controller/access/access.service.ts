@@ -1,17 +1,40 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateAccessDto, UpdateAccessDto } from './dto/access.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Access } from '../../entities';
 import { Model, Types } from 'mongoose';
 import { paginate } from '../../middleware/paginate';
+import { ProjectService } from '../project/project.service';
 
 @Injectable()
 export class AccessService {
-  constructor(@InjectModel('accesses') private accessModel: Model<Access>) {}
+  constructor(
+    @InjectModel('accesses') private accessModel: Model<Access>,
+    @Inject(forwardRef(() => ProjectService))
+    private projectServiceInject: ProjectService,
+  ) {}
+
   ObjectId = Types.ObjectId;
 
   async create(createAccessDto: CreateAccessDto) {
     return await this.accessModel.create(createAccessDto);
+  }
+
+  async isExistAccess(userId: string, projectId: string) {
+    const user = new this.ObjectId(userId);
+    const project = new this.ObjectId(projectId);
+    return await this.accessModel
+      .findOne({ userId: user, projectId: project })
+      .lean();
+  }
+
+  async findProjectName(id: string) {
+    return await this.projectServiceInject.findOneOnlyName(id);
   }
 
   async findAllById(id: string, limit: number, page: number) {

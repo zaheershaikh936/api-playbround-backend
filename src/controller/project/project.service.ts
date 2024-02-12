@@ -12,6 +12,7 @@ export class ProjectService {
   constructor(
     @InjectModel('project') private projectModel: Model<Project>,
     @InjectModel('access') private accessModel: Model<Access>,
+
     @Inject(forwardRef(() => AccessService))
     private AccessServiceInject: AccessService,
     @Inject(forwardRef(() => UserService))
@@ -126,6 +127,13 @@ export class ProjectService {
         },
       },
     ]);
+  }
+
+  async findOneOnlyName(id: string) {
+    const projectId = new this.ObjectId(id);
+    return await this.projectModel
+      .findById({ _id: projectId }, { name: 1 })
+      .lean();
   }
 
   async findOneById(_id: string) {
