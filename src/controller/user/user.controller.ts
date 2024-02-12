@@ -10,6 +10,7 @@ import { Public } from 'src/middleware/publicAccess';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Public()
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const salt = await genSalt(10);
