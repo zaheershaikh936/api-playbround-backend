@@ -8,6 +8,7 @@ import {
   Get,
   Req,
   Redirect,
+  Logger,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, RefreshDto } from './dto/auth.dto';
@@ -22,6 +23,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Get('/test')
   async testing() {
+    // const data = await this.mainService.sendUserConfirmation({
+    //   name: 'zaheer shaikh',
+    //   email: 'zaheer.mantiqh@gmail.com',
+    // });
+    // Logger.debug(data);
     return 'All good ready to use!';
   }
 
