@@ -8,7 +8,6 @@ import {
   Get,
   Req,
   Redirect,
-  Logger,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, RefreshDto } from './dto/auth.dto';
