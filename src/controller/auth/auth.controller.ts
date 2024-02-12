@@ -22,12 +22,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Get('/test')
   async testing() {
-    // const data = await this.mainService.sendUserConfirmation({
-    //   name: 'zaheer shaikh',
-    //   email: 'zaheer.mantiqh@gmail.com',
-    // });
-    // Logger.debug(data);
-    return 'All good ready to use!';
+    return 'hello';
   }
 
   @Public()

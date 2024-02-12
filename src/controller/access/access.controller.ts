@@ -14,6 +14,7 @@ import { AccessService } from './access.service';
 import { UserService } from '../user/user.service';
 import { CreateAccessDto, UpdateAccessDto } from './dto/access.dto';
 import { generatePassword } from '../../middleware/passwordGenerate';
+import { inviteEmail } from 'src/middleware/emailTemplate';
 
 @Controller('access')
 export class AccessController {
@@ -42,6 +43,19 @@ export class AccessController {
           name: user.data.data.name,
           email: user.data.data.email,
         };
+        const { name } = await this.accessService.findProjectName(
+          createAccessDto.projectId,
+        );
+        const emailBody = {
+          name: user.data.data.name || user.data.data.email,
+          to: user.data.data.email,
+          project: name,
+        };
+        inviteEmail({
+          name: emailBody.name,
+          to: emailBody.to,
+          project: emailBody.project,
+        });
       } else {
         createAccessDto.userId = user._id;
         createAccessDto.userObject = {
@@ -49,12 +63,25 @@ export class AccessController {
           email: user.email,
         };
       }
-      const data = await this.accessService.create(createAccessDto);
-      return {
-        title: 'Success!',
-        description: 'User added successfully!',
-        data: data,
-      };
+      const isAccessExist = await this.accessService.isExistAccess(
+        user._id || user.data.data._id,
+        createAccessDto.projectId,
+      );
+
+      if (!isAccessExist) {
+        const data = await this.accessService.create(createAccessDto);
+        return {
+          title: 'Success!',
+          description: 'User added successfully!',
+          data: data,
+        };
+      } else {
+        return {
+          title: 'Success!',
+          description: 'User added successfully!',
+          data: isAccessExist,
+        };
+      }
     } catch (error) {
       throw new InternalServerErrorException({
         title: 'Failed',

@@ -12,6 +12,8 @@ import { CreateUserDto, UpdateUserDto, ForgetPassword } from './dto/user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../../entities';
 import { AuthService } from '../auth/auth.service';
+import { welcomeEmail } from 'src/middleware/emailTemplate';
+
 import {
   ForgetTokenService,
   calculateExpiateTime,
@@ -44,6 +46,11 @@ export class UserService {
     delete data.password;
     const payload = { sub: data.id, roleId: 'user' };
     const token = await this.AuthServiceInject.tokenGenerate(payload);
+    const emailBody = {
+      name: data.name || data.email,
+      to: data.email,
+    };
+    welcomeEmail({ name: emailBody.name, to: emailBody.to });
     return {
       title: 'Success',
       description: 'Please check your email to verify you account!',

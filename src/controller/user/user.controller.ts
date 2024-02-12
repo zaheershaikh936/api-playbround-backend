@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Req,
+  Logger,
+} from '@nestjs/common';
 import { genSalt, hash } from 'bcrypt';
 
 // !other import
@@ -13,6 +22,7 @@ export class UserController {
   @Public()
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
+    Logger.debug(createUserDto);
     const salt = await genSalt(10);
     createUserDto.password = await hash(createUserDto.password, salt);
     return this.userService.create(createUserDto);
