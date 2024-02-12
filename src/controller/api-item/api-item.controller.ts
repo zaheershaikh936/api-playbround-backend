@@ -14,7 +14,7 @@ import { CreateApiItemDto, UpdateApiItemDto } from './dto/api-item.dto';
 @Controller('apiItem')
 export class ApiItemController {
   // eslint-disable-next-line prettier/prettier
-  constructor(private readonly apiItemService: ApiItemService) { }
+  constructor(private readonly apiItemService: ApiItemService) {}
 
   @Post()
   async create(@Body() createApiItemDto: CreateApiItemDto, @Req() req: any) {

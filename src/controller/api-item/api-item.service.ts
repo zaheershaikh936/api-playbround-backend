@@ -6,7 +6,7 @@ import { ApiItem } from '../../entities';
 
 @Injectable()
 export class ApiItemService {
-  constructor(@InjectModel('apiItem') private apiItemModel: Model<ApiItem>) { }
+  constructor(@InjectModel('apiItem') private apiItemModel: Model<ApiItem>) {}
 
   async create(createApiItemDto: CreateApiItemDto) {
     const data = await this.apiItemModel.create(createApiItemDto);
