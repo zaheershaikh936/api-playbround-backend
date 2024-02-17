@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
 import { AuthDto, RefreshDto } from './dto/auth.dto';
 import { Public } from 'src/middleware/publicAccess';
 import { AuthGuard } from '@nestjs/passport';
-
+import 'dotenv/config';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -26,11 +26,22 @@ export class AuthController {
   }
 
   @Public()
-  @HttpCode(HttpStatus.OK)
   @Get('/google')
   @UseGuards(AuthGuard('google'))
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async googleAuth(@Req() req: any) {}
+
+  @Public()
+  @Get('/google/callback')
+  @UseGuards(AuthGuard('google'))
+  @Redirect(`${process.env.CALLBACKURLWEB}`, 301)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async googleAuthNavigate(@Req() request: any) {
+    const data = await this.authService.SocialLogin(request);
+    return {
+      url: `${process.env.CALLBACKURLWEB}/home/login/${data?.id}/${data.access_token}/${data.refresh_token}`,
+    };
+  }
 
   @Public()
   @HttpCode(HttpStatus.OK)
@@ -40,22 +51,9 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Get('/google/callback')
-  @UseGuards(AuthGuard('google'))
-  @Redirect('http://localhost:5173', 302)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async googleAuthNavigate(@Req() request: any) {
-    const data = await this.authService.SocialLogin(request);
-    return {
-      url: `http://localhost:5173/home/login/${data?.id}/${data.access_token}/${data.refresh_token}`,
-    };
-  }
-
-  @Public()
-  @HttpCode(HttpStatus.OK)
   @Get('/github/callback')
   @UseGuards(AuthGuard('github'))
-  @Redirect('http://localhost:5173', 302)
+  @Redirect(process.env.CALLBACKURLWEB, 301)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async githubAuthCallback(@Req() request: any) {
     const userData = {
@@ -65,10 +63,9 @@ export class AuthController {
         picture: request.user.photos[0].value,
       },
     };
-    console.log(userData);
     const data = await this.authService.SocialLogin(userData);
     return {
-      url: `http://localhost:5173/home/login/${data?.id}/${data.access_token}/${data.refresh_token}`,
+      url: `${process.env.CALLBACKURLWEB}/home/login/${data?.id}/${data.access_token}/${data.refresh_token}`,
     };
   }
 
